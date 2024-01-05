@@ -1,8 +1,6 @@
 package com.krishna.marketplace.utils;
 
 import java.security.Key;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,13 +18,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-	public static final String SECRET = generateSecretKey();
-
-	private static String generateSecretKey() {
-		byte[] secretBytes = new byte[32]; // 256 bits
-		new SecureRandom().nextBytes(secretBytes);
-		return Base64.getEncoder().encodeToString(secretBytes);
-	}
+	public static final String SECRET = "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
 
 	public String generateToken(String username) {
 		Map<String, Object> claims = new HashMap<>();
@@ -55,7 +47,7 @@ public class JwtUtil {
 	}
 
 	private Claims extractAllClaims(String token) {
-		return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJwt(token).getBody();
+		return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
 	}
 
 	private boolean isTokenExpired(String token) {

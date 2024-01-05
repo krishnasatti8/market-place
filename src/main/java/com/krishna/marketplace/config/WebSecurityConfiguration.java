@@ -2,6 +2,7 @@ package com.krishna.marketplace.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,10 +28,18 @@ public class WebSecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.csrf().disable().authorizeHttpRequests()
-				.requestMatchers("/authenticate", "/sign-up", "/order/**").permitAll().and().authorizeHttpRequests()
-				.requestMatchers("/api/").authenticated().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		return httpSecurity.csrf()
+				.disable()
+				.authorizeHttpRequests()
+				.requestMatchers("/authenticate", "/sign-up", "/order/**")
+				.permitAll()
+				.and()
+				.authorizeHttpRequests()
+				.requestMatchers("/api/**").authenticated()
+				.and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
 				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 
