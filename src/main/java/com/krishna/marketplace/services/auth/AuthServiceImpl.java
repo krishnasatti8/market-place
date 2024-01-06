@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.krishna.marketplace.dto.SignupRequest;
 import com.krishna.marketplace.dto.UserDto;
+import com.krishna.marketplace.enums.OrderStatus;
 import com.krishna.marketplace.enums.UserRole;
+import com.krishna.marketplace.model.Order;
 import com.krishna.marketplace.model.User;
+import com.krishna.marketplace.repository.OrderRepository;
 import com.krishna.marketplace.repository.UserRepository;
 
 import jakarta.annotation.PostConstruct;
@@ -21,6 +24,9 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Autowired
+	private OrderRepository orderRepository;
+
 	public UserDto createUser(SignupRequest signupRequest) {
 
 		User user = new User();
@@ -30,6 +36,15 @@ public class AuthServiceImpl implements AuthService {
 		user.setRole(UserRole.CUSTOMER);
 
 		User createUser = userRepository.save(user);
+
+		Order order = new Order();
+		order.setAmmount(0L);
+		order.setTotalAmount(0L);
+		order.setDiscount(0L);
+		order.setOrderStatus(OrderStatus.Pending);
+		order.setUser(createUser);
+
+		orderRepository.save(order);
 
 		UserDto userDto = new UserDto();
 		userDto.setId(createUser.getId());

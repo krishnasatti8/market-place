@@ -1,4 +1,4 @@
-package com.krishna.marketplace.services.auth.admin;
+package com.krishna.marketplace.services.auth.admin.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.krishna.marketplace.dto.CategoryDto;
 import com.krishna.marketplace.model.Category;
 import com.krishna.marketplace.repository.CategoryRespository;
+import com.krishna.marketplace.services.auth.admin.CategoryService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
