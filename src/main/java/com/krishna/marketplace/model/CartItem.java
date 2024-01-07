@@ -3,6 +3,8 @@ package com.krishna.marketplace.model;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.krishna.marketplace.dto.CartItemDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +39,22 @@ public class CartItem {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+	public CartItemDto getCartDto(){
+		CartItemDto cartItemDto=new CartItemDto();
+		cartItemDto.setId(id);
+		cartItemDto.setPrice(price);
+		cartItemDto.setProductId(product.getId());
+		cartItemDto.setQuantity(quantity);
+		cartItemDto.setUserId(user.getId());
+		cartItemDto.setProductName(product.getName());
+		cartItemDto.setReturnedImg(product.getImage());
+
+		return cartItemDto;
+		
+	}
+    
+    
 
 	public Long getId() {
 		return id;
@@ -85,6 +103,10 @@ public class CartItem {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+
+
+
     
+	
     
 }

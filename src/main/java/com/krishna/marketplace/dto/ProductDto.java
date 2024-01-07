@@ -66,12 +66,12 @@ public class ProductDto {
 		return image;
 	}
 
-	public String getCatergoryName() {
-		return catergoryName;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setCatergoryName(String catergoryName) {
-		this.catergoryName = catergoryName;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public void setImage(MultipartFile image) {
@@ -82,6 +82,6 @@ public class ProductDto {
 
     private MultipartFile image;
     
-    private String catergoryName;
+    private String categoryName;
 
 }

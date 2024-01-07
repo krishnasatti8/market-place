@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.krishna.marketplace.dto.ProductDto;
-import com.krishna.marketplace.services.auth.admin.ProductService;
+import com.krishna.marketplace.services.admin.AdminProductService;
 
 
 
 @RestController
 @RequestMapping("/api/admin")
-public class ProductController {
+public class AdminProductController {
 
     @Autowired
-    private ProductService productService;
+    private AdminProductService productService;
 
     @PostMapping("/createproduct")
     public ResponseEntity<ProductDto> createProduct(@ModelAttribute ProductDto productDto) throws IOException {

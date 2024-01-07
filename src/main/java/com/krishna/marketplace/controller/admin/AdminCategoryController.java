@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.krishna.marketplace.dto.CategoryDto;
 import com.krishna.marketplace.model.Category;
-import com.krishna.marketplace.services.auth.admin.CategoryService;
+import com.krishna.marketplace.services.admin.AdminCategoryService;
 
 @RestController
 @RequestMapping("/api/admin")
-public class CategoryController {
+public class AdminCategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
     @PostMapping("/createcategory")
     public ResponseEntity<Category> createCategory(@RequestBody CategoryDto categoryDto) {

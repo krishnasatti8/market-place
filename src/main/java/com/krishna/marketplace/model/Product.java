@@ -50,7 +50,7 @@ public class Product {
 		productDto.setDescription(this.description);
 		productDto.setByteImage(this.image);
 		productDto.setCategoryId(this.category.getId());
-		productDto.setCatergoryName(this.category.getName());
+		productDto.setCategoryName(this.category.getName());
 		return productDto;
 	}
 

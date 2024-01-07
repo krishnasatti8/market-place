@@ -1,4 +1,4 @@
-package com.krishna.marketplace.model;
+package com.krishna.marketplace.dto;
 
 import java.util.Date;
 import java.util.List;
@@ -6,51 +6,28 @@ import java.util.UUID;
 
 import com.krishna.marketplace.enums.OrderStatus;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+public class OrderDto {
 
-@Entity
-@Table(name = "orders")
-public class Order {
+	private Long id;
 
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private String orderDescription;
 
-    private String orderDescription;
+	private Date date;
 
-    private Date date;
+	private Long amount;
 
-    private Long amount;
+	private String address;
 
-    private String address;
+	private String payment;
 
-    private String payment;
+	private OrderStatus orderStatus;
 
-    private OrderStatus orderStatus;
+	private Long totalAmount;
 
-    private Long totalAmount;
+	private Long discount;
 
-    private Long discount;
-
-    private UUID trackingId;
-
-
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<CartItem> cartItems;
-
+	private UUID trackingId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -79,8 +56,8 @@ public class Order {
 		return amount;
 	}
 
-	public void setAmount(Long ammount) {
-		this.amount = ammount;
+	public void setAmount(Long amount) {
+		this.amount = amount;
 	}
 
 	public String getAddress() {
@@ -131,21 +108,26 @@ public class Order {
 		this.trackingId = trackingId;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public List<CartItem> getCartItems() {
-		return cartItems;
+	public List<CartItemDto> getCartItemDtos() {
+		return cartItemDtos;
 	}
 
-	public void setCartItems(List<CartItem> cartItems) {
-		this.cartItems = cartItems;
+	public void setCartItemDtos(List<CartItemDto> cartItemDtos) {
+		this.cartItemDtos = cartItemDtos;
 	}
-   
 
+	private String userName;
+	
+	private List<CartItemDto> cartItemDtos;
+	
+	
+	
 }

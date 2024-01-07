@@ -1,4 +1,4 @@
-package com.krishna.marketplace.services.auth.admin.impl;
+package com.krishna.marketplace.services.admin.impl;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,10 +13,10 @@ import com.krishna.marketplace.model.Category;
 import com.krishna.marketplace.model.Product;
 import com.krishna.marketplace.repository.CategoryRespository;
 import com.krishna.marketplace.repository.ProductRepository;
-import com.krishna.marketplace.services.auth.admin.ProductService;
+import com.krishna.marketplace.services.admin.AdminProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class AdminProductServiceImpl implements AdminProductService {
 
     @Autowired
     private CategoryRespository categoryRespository;
