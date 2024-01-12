@@ -1,6 +1,5 @@
 package com.krishna.marketplace.services.customer.impl;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,14 +60,14 @@ public class CustomerCartServiceImpl implements CustomerCartService {
                 CartItem newCartItem = new CartItem();
                 newCartItem.setProduct(product.get());
                 newCartItem.setPrice(product.get().getPrice());
-                newCartItem.setQuantity(0L);
+                newCartItem.setQuantity(1L);
                 newCartItem.setUser(user.get());
                 newCartItem.setOrder(activeOrder);
 
                 CartItem savedCartItem = cartItemRepository.save(newCartItem);
                 activeOrder.setTotalAmount(activeOrder.getTotalAmount() + newCartItem.getPrice());
                 activeOrder.setAmount(activeOrder.getAmount() + newCartItem.getPrice());
-                activeOrder.getCartItems().add(savedCartItem);
+                activeOrder.getCartItems().add(newCartItem);
                 orderRepository.save(activeOrder);
                 return ResponseEntity.status(HttpStatus.CREATED).body(newCartItem);
             } else {
