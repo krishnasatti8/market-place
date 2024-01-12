@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.krishna.marketplace.dto.OrderDto;
 import com.krishna.marketplace.enums.OrderStatus;
 
 import jakarta.persistence.CascadeType;
@@ -15,41 +16,65 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "orders")
 public class Order {
 
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
 
-    private String orderDescription;
+	private String orderDescription;
 
-    private Date date;
+	private Date date;
 
-    private Long amount;
+	private Long amount;
 
-    private String address;
+	private String address;
 
-    private String payment;
+	private String payment;
 
-    private OrderStatus orderStatus;
+	private OrderStatus orderStatus;
 
-    private Long totalAmount;
+	private Long totalAmount;
 
-    private Long discount;
+	private Long discount;
 
-    private UUID trackingId;
+	private UUID trackingId;
 
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+	private List<CartItem> cartItems;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<CartItem> cartItems;
+	@OneToOne
+	@JoinColumn(name = "coupon_id", referencedColumnName = "id")
+	private Coupon coupon;
+
+	public OrderDto getOrderDto() {
+		OrderDto orderDto = new OrderDto();
+
+		orderDto.setId(this.id);
+		orderDto.setOrderDescription(this.orderDescription);
+		orderDto.setAddress(this.address);
+		orderDto.setTrackingId(this.trackingId);
+		orderDto.setAmount(this.amount);
+		orderDto.setDate(this.date);
+		orderDto.setOrderStatus(this.orderStatus);
+		orderDto.setUserName(this.user.getName());
+
+		if (this.coupon != null) {
+			orderDto.setCouponName(this.coupon.getName());
+		}
+
+		return orderDto;
+
+	}
 
 	public Long getId() {
 		return id;
@@ -146,6 +171,13 @@ public class Order {
 	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
-   
+
+	public Coupon getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(Coupon coupon) {
+		this.coupon = coupon;
+	}
 
 }

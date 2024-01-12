@@ -4,8 +4,18 @@ import org.springframework.http.ResponseEntity;
 
 import com.krishna.marketplace.dto.AddToCartDto;
 import com.krishna.marketplace.dto.OrderDto;
+import com.krishna.marketplace.dto.PlaceOrderDto;
 
 public interface CustomerCartService {
- public ResponseEntity<?> addProductToCart(AddToCartDto addToCartDto);
- public OrderDto getCartByUserId(Long userId);
+    public ResponseEntity<?> addProductToCart(AddToCartDto addToCartDto);
+
+    public OrderDto getCartByUserId(Long userId);
+
+    public OrderDto applyCoupon(Long userId, String code);
+
+    public OrderDto increaseProductQuantity(AddToCartDto addToCartDto);
+
+    public OrderDto decreaseProductQuantity(AddToCartDto addToCartDto);
+    
+    public OrderDto placeOrder(PlaceOrderDto placeOrderDto);
 }

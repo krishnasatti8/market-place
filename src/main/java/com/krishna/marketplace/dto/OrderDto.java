@@ -27,7 +27,13 @@ public class OrderDto {
 	private Long discount;
 
 	private UUID trackingId;
-	
+
+	private String userName;
+
+	private List<CartItemDto> cartItemDtos;
+
+	private String couponName;
+
 	public Long getId() {
 		return id;
 	}
@@ -124,10 +130,12 @@ public class OrderDto {
 		this.cartItemDtos = cartItemDtos;
 	}
 
-	private String userName;
-	
-	private List<CartItemDto> cartItemDtos;
-	
-	
-	
+	public String getCouponName() {
+		return couponName;
+	}
+
+	public void setCouponName(String couponName) {
+		this.couponName = couponName;
+	}
+
 }

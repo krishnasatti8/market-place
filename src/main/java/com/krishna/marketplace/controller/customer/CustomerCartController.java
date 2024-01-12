@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.krishna.marketplace.dto.AddToCartDto;
 import com.krishna.marketplace.dto.OrderDto;
+import com.krishna.marketplace.dto.PlaceOrderDto;
+import com.krishna.marketplace.exceptions.ValidationException;
 import com.krishna.marketplace.services.customer.CustomerCartService;
 
 @RestController
@@ -30,6 +32,33 @@ public class CustomerCartController {
 	public ResponseEntity<?> getCart(@PathVariable Long userId) {
 		OrderDto orderDto = customerCartService.getCartByUserId(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+	}
+
+	@GetMapping("applycoupon/{userId}/{code}")
+	public ResponseEntity<?> applyCoupon(@PathVariable Long userId, @PathVariable String code) {
+		try {
+			OrderDto orderDto = customerCartService.applyCoupon(userId, code);
+			return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+		} catch (ValidationException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+	@PostMapping("/addition")
+	public ResponseEntity<?> increaseProductQuantity(@RequestBody AddToCartDto addToCartDto) {
+		OrderDto orderDto = customerCartService.increaseProductQuantity(addToCartDto);
+		return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+	}
+
+	@PostMapping("/deduction")
+	public ResponseEntity<?> decreaseProductQuantity(@RequestBody AddToCartDto addToCartDto) {
+		OrderDto orderDto = customerCartService.decreaseProductQuantity(addToCartDto);
+		return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+	}
+
+	@PostMapping("/placeorder")
+	public ResponseEntity<?> placeOrder(@RequestBody PlaceOrderDto placeOrderDto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(customerCartService.placeOrder(placeOrderDto));
 	}
 
 }
