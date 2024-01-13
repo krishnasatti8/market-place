@@ -1,5 +1,7 @@
 package com.krishna.marketplace.controller.customer;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +61,11 @@ public class CustomerCartController {
 	@PostMapping("/placeorder")
 	public ResponseEntity<?> placeOrder(@RequestBody PlaceOrderDto placeOrderDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(customerCartService.placeOrder(placeOrderDto));
+	}
+
+	@GetMapping("/myorders/{userId}")
+	public ResponseEntity<List<OrderDto>> getPlacedOrders(@PathVariable Long userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(customerCartService.getPlacedOrders(userId));
 	}
 
 }

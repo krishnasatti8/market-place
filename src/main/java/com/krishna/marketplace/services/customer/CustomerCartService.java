@@ -1,5 +1,7 @@
 package com.krishna.marketplace.services.customer;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 import com.krishna.marketplace.dto.AddToCartDto;
@@ -18,4 +20,6 @@ public interface CustomerCartService {
     public OrderDto decreaseProductQuantity(AddToCartDto addToCartDto);
     
     public OrderDto placeOrder(PlaceOrderDto placeOrderDto);
+
+    public List<OrderDto> getPlacedOrders(Long userId);
 }

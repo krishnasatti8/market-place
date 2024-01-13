@@ -2,7 +2,7 @@ package com.krishna.marketplace.enums;
 
 public enum OrderStatus {
 	Pending,
-	placed,
+	Placed,
 	Shipped,
 	Delivered
 

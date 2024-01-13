@@ -209,7 +209,7 @@ public class CustomerCartServiceImpl implements CustomerCartService {
             activeOrder.setOrderDescription(placeOrderDto.getOrderDescription());
             activeOrder.setAddress(placeOrderDto.getAddress());
             activeOrder.setDate(new Date());
-            activeOrder.setOrderStatus(OrderStatus.placed);
+            activeOrder.setOrderStatus(OrderStatus.Placed);
             activeOrder.setTrackingId(UUID.randomUUID());
 
             orderRepository.save(activeOrder);
@@ -229,6 +229,13 @@ public class CustomerCartServiceImpl implements CustomerCartService {
             
         }
         
+    }
+
+
+    public List<OrderDto> getPlacedOrders(Long userId) {
+        return orderRepository.findByUserIdAndOrderStatusIn(userId, List.of(OrderStatus.Placed,OrderStatus.Delivered))
+                .stream().map(Order::getOrderDto).collect(Collectors.toList());
+      
     }
 
 
