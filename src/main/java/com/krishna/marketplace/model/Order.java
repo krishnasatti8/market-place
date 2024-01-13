@@ -52,7 +52,7 @@ public class Order {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	private List<CartItem> cartItems;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "coupon_id", referencedColumnName = "id")
 	private Coupon coupon;
 
