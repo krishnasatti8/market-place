@@ -54,4 +54,30 @@ public class AdminProductServiceImpl implements AdminProductService {
         return false;
     }
 
+    public ProductDto getProductById(Long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            return product.get().getProductDto();
+        }
+        return null;
+    }
+
+    public ProductDto updateProduct(Long productId, ProductDto productDto) throws IOException {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        Optional<Category> optionalCategory = categoryRespository.findById(productDto.getCategoryId());
+        if (optionalProduct.isPresent() && optionalCategory.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setName(productDto.getName());
+            product.setPrice(productDto.getPrice());
+            product.setDescription(productDto.getDescription());
+            product.setCategory(optionalCategory.get());
+            if (productDto.getImage() != null) {
+                product.setImage(productDto.getImage().getBytes());
+            }
+            return productRepository.save(product).getProductDto();
+        }
+        return null;
+
+    }
+
 }
