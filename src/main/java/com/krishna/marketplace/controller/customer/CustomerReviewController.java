@@ -22,13 +22,13 @@ public class CustomerReviewController {
     @Autowired
     private CustomerReviewService customerReviewService;
 
-    @GetMapping("orderdetails/{orderId}")
+    @GetMapping("/orderdetails/{orderId}")
     public ResponseEntity<OrderDetailsDto> getOrderDetails(@PathVariable Long orderId) {
         OrderDetailsDto orderDetailsDto = customerReviewService.getOrderDetails(orderId);
         return ResponseEntity.ok(orderDetailsDto);
     }
 
-    @PostMapping("createreview")
+    @PostMapping("/createreview")
     public ResponseEntity<?> createReview(@ModelAttribute ReviewDto reviewDto) throws IOException {
         ReviewDto reviewDtoResponse = customerReviewService.createReview(reviewDto);
         if (reviewDtoResponse == null) {
