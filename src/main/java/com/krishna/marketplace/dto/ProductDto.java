@@ -13,6 +13,14 @@ public class ProductDto {
     private String description;
 
     private byte[] byteImage;
+    
+	private Long categoryId;
+
+    private MultipartFile image;
+    
+    private String categoryName;
+
+	private Long quantity;
 
     public Long getId() {
 		return id;
@@ -78,10 +86,16 @@ public class ProductDto {
 		this.image = image;
 	}
 
-	private Long categoryId;
+	public Long getQuantity() {
+		return quantity;
+	}
 
-    private MultipartFile image;
-    
-    private String categoryName;
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+	
+	
+
+
 
 }
