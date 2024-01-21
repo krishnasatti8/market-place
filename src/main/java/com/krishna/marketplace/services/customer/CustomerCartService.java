@@ -1,6 +1,7 @@
 package com.krishna.marketplace.services.customer;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 
@@ -22,4 +23,6 @@ public interface CustomerCartService {
     public OrderDto placeOrder(PlaceOrderDto placeOrderDto);
 
     public List<OrderDto> getPlacedOrders(Long userId);
+
+    public OrderDto searchOrderByTrackingId(UUID trackingId);
 }

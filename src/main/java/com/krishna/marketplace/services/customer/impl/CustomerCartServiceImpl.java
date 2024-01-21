@@ -239,4 +239,14 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 
 	}
 
+
+	public OrderDto searchOrderByTrackingId(UUID trackingId) {
+		Optional<Order> optionalOrder = orderRepository.findByTrackingId(trackingId);
+		if (optionalOrder.isPresent()) {
+			return optionalOrder.get().getOrderDto();
+		} else {
+			return null;
+		}
+	}
+
 }
