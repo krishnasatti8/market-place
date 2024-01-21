@@ -1,6 +1,7 @@
 package com.krishna.marketplace.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 import org.json.JSONException;
@@ -68,10 +69,12 @@ public class AuthController {
 		Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
 
 		final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+		Date expirationDate = jwtUtil.extractExpiration(jwt);
 
 		if (optionalUser.isPresent()) {
 			response.getWriter().write(new JSONObject().put("userId", optionalUser.get().getId())
-					.put("role", optionalUser.get().getRole()).toString());
+					.put("role", optionalUser.get().getRole())
+					.put("expirationDate", expirationDate).toString());
 
 			response.addHeader("Access-Control-Expose-Headers", "Authorization");
 			response.addHeader("Access-Control-Allow-Headers",
