@@ -46,6 +46,12 @@ public class CustomerCartController {
 		}
 	}
 
+	@GetMapping("removecoupon/{userId}")
+	public ResponseEntity<?> removeCoupon(@PathVariable Long userId) {
+		OrderDto orderDto = customerCartService.removeCoupon(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+	}
+
 	@PostMapping("/addition")
 	public ResponseEntity<?> increaseProductQuantity(@RequestBody AddToCartDto addToCartDto) {
 		OrderDto orderDto = customerCartService.increaseProductQuantity(addToCartDto);
@@ -58,6 +64,12 @@ public class CustomerCartController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderDto);
 	}
 
+	@PostMapping("/removefromcart")
+	public ResponseEntity<?> removeFromCart(@RequestBody AddToCartDto addToCartDto) {
+		OrderDto orderDto = customerCartService.removeProductFromCart(addToCartDto);
+		return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+	}
+
 	@PostMapping("/placeorder")
 	public ResponseEntity<?> placeOrder(@RequestBody PlaceOrderDto placeOrderDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(customerCartService.placeOrder(placeOrderDto));
@@ -66,6 +78,11 @@ public class CustomerCartController {
 	@GetMapping("/myorders/{userId}")
 	public ResponseEntity<List<OrderDto>> getPlacedOrders(@PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.OK).body(customerCartService.getPlacedOrders(userId));
+	}
+
+	@GetMapping("cartcount/{userId}")
+	public ResponseEntity<?> getCartCount(@PathVariable Long userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(customerCartService.getCartCount(userId));
 	}
 
 }

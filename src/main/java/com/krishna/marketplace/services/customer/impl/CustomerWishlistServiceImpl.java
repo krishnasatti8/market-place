@@ -49,6 +49,25 @@ public class CustomerWishlistServiceImpl implements CustomerWishlistService {
     }
 
     @Override
+    public WishlistDto removeProductFromWhistlist(WishlistDto wishlistDto){
+        Optional<Product> optionalProduct = productRepository.findById(wishlistDto.getProductId());
+        Optional<User> optionalUser = userRepository.findById(wishlistDto.getUserId());
+
+        if (optionalProduct.isPresent() && optionalUser.isPresent()) {
+
+            List<Wishlist> wishlist = wishlistRepository.findByProductIdAndUserId(wishlistDto.getProductId(),
+                    wishlistDto.getUserId());
+            if (!wishlist.isEmpty()) {
+                wishlistRepository.delete(wishlist.get(0));
+                return wishlist.get(0).getWishlistDto();
+            } else {
+                return new WishlistDto();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<WishlistDto> getWishlistByUserId(Long userId) {
         return wishlistRepository.findAllByUserId(userId).stream().map(Wishlist::getWishlistDto)
                 .collect(java.util.stream.Collectors.toList());

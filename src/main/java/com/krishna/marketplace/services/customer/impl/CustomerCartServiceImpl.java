@@ -128,6 +128,16 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 
 	}
 
+	public OrderDto removeCoupon(Long userId) {
+		Order activeOrder = orderRepository.findByUserIdAndOrderStatus(userId, OrderStatus.Pending);
+		activeOrder.setAmount(activeOrder.getTotalAmount());
+		activeOrder.setDiscount(0L);
+		activeOrder.setCoupon(null);
+
+		orderRepository.save(activeOrder);
+		return activeOrder.getOrderDto();
+	}
+
 	private boolean couponIsExpired(Coupon coupon) {
 		Date currentDate = new Date();
 		Date expiryDate = coupon.getExpiryDate();
@@ -200,6 +210,38 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 
 	}
 
+	public OrderDto removeProductFromCart(AddToCartDto addToCartDto) {
+		Order activeOrder = orderRepository.findByUserIdAndOrderStatus(addToCartDto.getUserId(), OrderStatus.Pending);
+		Optional<CartItem> optionalCartItem = cartItemRepository.findByProductIdAndOrderIdAndUserId(
+				addToCartDto.getProductId(), activeOrder.getId(), addToCartDto.getUserId());
+
+		if (optionalCartItem.isPresent()) {
+			CartItem cartItem = optionalCartItem.get();
+			activeOrder.setAmount(activeOrder.getAmount() - cartItem.getPrice() * cartItem.getQuantity());
+			activeOrder.setTotalAmount(activeOrder.getTotalAmount() - cartItem.getPrice() * cartItem.getQuantity());
+
+			if (activeOrder.getCoupon() != null) {
+				double discountAmount = ((activeOrder.getCoupon().getDiscount() / 100.0)
+						* activeOrder.getTotalAmount());
+				double netAmount = activeOrder.getTotalAmount() - discountAmount;
+				activeOrder.setAmount((long) netAmount);
+				activeOrder.setDiscount((long) discountAmount);
+			}
+
+			cartItemRepository.delete(cartItem);
+
+			if (activeOrder.getCartItems().size() == 0) {
+				activeOrder.setCoupon(null);
+			}
+
+			orderRepository.save(activeOrder);
+			return activeOrder.getOrderDto();
+		} else {
+			return null;
+		}
+
+	}
+
 	public OrderDto placeOrder(PlaceOrderDto placeOrderDto) {
 		Order activeOrder = orderRepository.findByUserIdAndOrderStatus(placeOrderDto.getUserId(), OrderStatus.Pending);
 		Optional<User> optionalUser = userRepository.findById(placeOrderDto.getUserId());
@@ -239,7 +281,6 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 
 	}
 
-
 	public OrderDto searchOrderByTrackingId(UUID trackingId) {
 		Optional<Order> optionalOrder = orderRepository.findByTrackingId(trackingId);
 		if (optionalOrder.isPresent()) {
@@ -247,6 +288,11 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 		} else {
 			return null;
 		}
+	}
+
+	public int getCartCount(Long userId) {
+		Order activeOrder = orderRepository.findByUserIdAndOrderStatus(userId, OrderStatus.Pending);
+		return activeOrder.getCartItems().size();
 	}
 
 }

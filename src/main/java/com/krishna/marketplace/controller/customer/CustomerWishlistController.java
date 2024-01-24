@@ -28,6 +28,15 @@ public class CustomerWishlistController {
         return ResponseEntity.badRequest().body("Something went wrong!");
     }
 
+    @PostMapping("/removefromwishlist")
+    public ResponseEntity<?> removeProductFromWishlist(@RequestBody WishlistDto wishlistDto) {
+        WishlistDto wishlistDtoResponse = customerWishlistService.removeProductFromWhistlist(wishlistDto);
+        if (wishlistDtoResponse != null) {
+            return ResponseEntity.ok(wishlistDtoResponse);
+        }
+        return ResponseEntity.badRequest().body("Something went wrong!");
+    }
+
     @GetMapping("/fetchwishlist/{userId}")
     public ResponseEntity<?> getWishlistByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(customerWishlistService.getWishlistByUserId(userId));

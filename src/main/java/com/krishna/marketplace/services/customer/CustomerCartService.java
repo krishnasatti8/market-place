@@ -16,13 +16,19 @@ public interface CustomerCartService {
 
     public OrderDto applyCoupon(Long userId, String code);
 
+    public OrderDto removeCoupon(Long userId);
+
     public OrderDto increaseProductQuantity(AddToCartDto addToCartDto);
 
     public OrderDto decreaseProductQuantity(AddToCartDto addToCartDto);
-    
+
+    public OrderDto removeProductFromCart(AddToCartDto addToCartDto);
+
     public OrderDto placeOrder(PlaceOrderDto placeOrderDto);
 
     public List<OrderDto> getPlacedOrders(Long userId);
 
     public OrderDto searchOrderByTrackingId(UUID trackingId);
+
+    public int getCartCount(Long userId);
 }
