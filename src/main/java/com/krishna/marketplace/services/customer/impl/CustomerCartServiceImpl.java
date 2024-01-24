@@ -295,4 +295,6 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 		return activeOrder.getCartItems().size();
 	}
 
+	
+
 }
